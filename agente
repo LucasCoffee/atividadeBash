@@ -1,1 +1,30 @@
+#!/bin/bash
 
+pastas=("texto"  "imagem" "codigo" "outros")
+
+for pasta in "${pastas[@]}"; do
+        if [[ ! -d "$pasta" ]];  then
+                mkdir "$pasta"
+        fi
+done
+
+
+for arquivo in *; do
+
+        if [[ -d "$arquivo" ]]; then
+                continue
+        fi
+
+        if [[ $arquivo == *.txt || $arquivo == *.pdf ]]; then
+                mv $arquivo ./texto/
+        elif [[ $arquivo == *.png || $arquivo == *.jpg ]]; then
+                mv $arquivo ./imagem/
+
+        elif [[ $arquivo == *.c || $arquivo == *.sh ]]; then
+                if [[ "$arquivo" != "$(basename "$0")" ]]; then
+                        mv $arquivo ./codigo/
+                fi
+        else
+                mv $arquivo ./outros/
+        fi
+done
